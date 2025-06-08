@@ -44,20 +44,21 @@ posts = [
     },
 ]
 
+posts_by_id = {post['id']: post for post in posts}
+
 
 def index(request):
-    template = 'blog/index.html'
     context = {'posts_lst': reversed(posts)}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', context)
 
 
 def post_detail(request, id):
-    template = 'blog/detail.html'
+    if id not in posts_by_id:
+        raise "Пост с указанным ID не найден"
     context = {'post': posts[id]}
-    return render(request, template, context)
+    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
     context = {'posts_category': category_slug}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', context)
