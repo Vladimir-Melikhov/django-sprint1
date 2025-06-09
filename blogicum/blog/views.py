@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import Http404
 
 posts = [
     {
@@ -52,10 +52,10 @@ def index(request):
     return render(request, 'blog/index.html', context)
 
 
-def post_detail(request, id):
-    if id not in posts_by_id:
-        raise "Пост с указанным ID не найден"
-    context = {'post': posts[id]}
+def post_detail(request, post_id):
+    if post_id not in posts_by_id:
+        raise Http404("Пост с указанным ID не найден")
+    context = {'post': posts_by_id[post_id]}
     return render(request, 'blog/detail.html', context)
 
 
